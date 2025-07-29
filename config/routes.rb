@@ -34,7 +34,13 @@ Rails.application.routes.draw do
   end
 
   resources :organisations, only: %i[show index]
-  resources :placement_preferences, only: %i[index]
+  resources :placement_preferences, only: %i[index show] do
+    collection do
+      get "new", to: "placement_preferences/add_hosting_interest#new", as: :new_add_hosting_interest
+      get "new/:state_key/:step", to: "placement_preferences/add_hosting_interest#edit", as: :add_hosting_interest
+      put "new/:state_key/:step", to: "placement_preferences/add_hosting_interest#update"
+    end
+  end
   resources :change_organisation, only: %i[index] do
     get "/update_organisation", to: "change_organisation#update_organisation", as: :update_organisation
   end

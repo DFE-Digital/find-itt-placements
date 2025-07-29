@@ -50,6 +50,10 @@
         <% end %>
       </div>
 
+      <div class="govuk-width-container">
+        <%= yield :before_content %>
+      </div>
+
       <%= yield %>
     </main>
 

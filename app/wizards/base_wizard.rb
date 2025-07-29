@@ -83,7 +83,9 @@ class BaseWizard
     attributes = if name == current_step
                    # Try and populate from the params, then fall back to the session
                    params_key = step_class.model_name.param_key
-                   step_attributes = step_class.new(wizard: self, attributes: nil).attributes.keys
+                   step_attributes = step_class.new(wizard: self, attributes: nil).attributes.map do |key, value|
+                      value.is_a?(Array) ? { key => value } : key
+                   end
                    params[params_key]&.permit(step_attributes) || state[state_key]
     else
                    state[state_key]

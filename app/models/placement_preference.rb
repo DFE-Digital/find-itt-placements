@@ -10,4 +10,6 @@ class PlacementPreference < ApplicationRecord
          not_open: "not_open"
        },
        validate: true
+
+  scope :for_academic_year, ->(academic_year) { where(academic_year:) }
 end
