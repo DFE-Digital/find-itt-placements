@@ -2,7 +2,7 @@ module PlacementPreferenceCreatable
   extend ActiveSupport::Concern
 
   def add_placement_creation_steps(with_check_your_answers: true)
-    add_step(::Placements::MultiPlacementWizard::PhaseStep)
+    add_step(AddHostingInterestWizard::PhaseStep)
     if primary_phase?
       year_group_steps
     end
@@ -16,57 +16,7 @@ module PlacementPreferenceCreatable
     end
     return unless with_check_your_answers
 
-    add_step(::Placements::MultiPlacementWizard::CheckYourAnswersStep)
-  end
-
-  def create_placements
-    created_placements = []
-    year_groups.each do |year_group|
-      placement_quantity_for_year_group(year_group).times do
-        placement = Placement.create!(
-          school:,
-          subject: Subject.primary_subject,
-          year_group:,
-          academic_year:,
-          creator: current_user,
-        )
-        created_placements << placement
-      end
-    end
-
-    selected_secondary_subjects.each do |subject|
-      placement_quantity_for_subject(subject).times do |i|
-        placement = Placement.create!(
-          school:,
-          subject:,
-          academic_year:,
-          creator: current_user,
-        )
-        next unless subject.has_child_subjects?
-
-        step_name = step_name_for_child_subjects(subject:, selection_number: i + 1)
-        steps.fetch(step_name).child_subject_ids.each do |child_subject_id|
-          placement.additional_subjects << Subject.find(child_subject_id)
-        end
-        placement.save!
-        created_placements << placement
-      end
-    end
-
-    selected_key_stages.each do |key_stage|
-      placement_quantity_for_key_stage(key_stage).times do
-        placement = Placement.create!(
-          school:,
-          key_stage:,
-          academic_year:,
-          creator: current_user,
-          send_specific: true,
-        )
-        created_placements << placement
-      end
-    end
-
-    created_placements
+    add_step(AddHostingInterestWizard::CheckYourAnswersStep)
   end
 
   def year_groups
@@ -76,15 +26,17 @@ module PlacementPreferenceCreatable
   end
 
   def selected_secondary_subjects
-    @selected_secondary_subjects ||= Subject.secondary.where(
+    @selected_secondary_subjects ||= PlacementSubject.secondary.where(
       id: selected_secondary_subject_ids,
     ).order_by_name
   end
 
   def selected_key_stages
-    @selected_key_stages ||= ::Placements::KeyStage.where(
-      id: selected_key_stage_ids,
-    ).order_by_name
+    []
+
+    # @selected_key_stages ||= ::Placements::KeyStage.where(
+    #   id: selected_key_stage_ids,
+    # ).order_by_name
   end
 
   def placement_quantity_for_subject(subject)
@@ -130,8 +82,7 @@ module PlacementPreferenceCreatable
   private
 
   def year_group_steps
-    add_step(::Placements::MultiPlacementWizard::YearGroupSelectionStep)
-    add_step(::Placements::MultiPlacementWizard::YearGroupPlacementQuantityStep)
+    add_step(AddHostingInterestWizard::YearGroupSelectionStep)
   end
 
   def selected_secondary_subject_ids
@@ -147,34 +98,29 @@ module PlacementPreferenceCreatable
   end
 
   def secondary_subject_steps
-    add_step(::Placements::MultiPlacementWizard::SecondarySubjectSelectionStep)
-    add_step(::Placements::MultiPlacementWizard::SecondaryPlacementQuantityStep)
+    add_step(AddHostingInterestWizard::SecondarySubjectSelectionStep)
     child_subject_steps
   end
 
-  def child_subject_steps(step_prefix: ::Placements::MultiPlacementWizard)
+  def child_subject_steps(step_prefix: AddHostingInterestWizard)
     if selected_secondary_subjects.any?(&:has_child_subjects?)
       selected_secondary_subjects.each do |subject|
         next unless subject.has_child_subjects?
 
-        placement_quantity_for_subject(subject).times do |i|
-          index = i + 1
-          add_step(step_prefix::SecondaryChildSubjectPlacementSelectionStep,
-                   {
-                     selection_id: "#{subject.name_as_attribute}_#{index}",
-                     selection_number: index,
-                     parent_subject_id: subject.id
+        add_step(step_prefix::SecondaryChildSubjectSelectionStep,
+                  {
+                    selection_id: subject.id,
+                    selection_number: subject.id,
+                    parent_subject_id: subject.id
 
-                   },
-                   :selection_id)
-        end
+                  },
+                  :selection_id)
       end
     end
   end
 
   def send_steps
     add_step(::Placements::MultiPlacementWizard::KeyStageSelectionStep)
-    add_step(::Placements::MultiPlacementWizard::KeyStagePlacementQuantityStep)
   end
 
   def step_name_for_child_subjects(subject:, selection_number:)
@@ -252,14 +198,14 @@ module PlacementPreferenceCreatable
   end
 
   def primary_phase?
-    phases.include?(::Placements::School::PRIMARY_PHASE)
+    phases.include?(AddHostingInterestWizard::PhaseStep::PRIMARY_PHASE)
   end
 
   def secondary_phase?
-    phases.include?(::Placements::School::SECONDARY_PHASE)
+    phases.include?(AddHostingInterestWizard::PhaseStep::SECONDARY_PHASE)
   end
 
   def send_specific?
-    phases.include?(::Placements::MultiPlacementWizard::PhaseStep::SEND)
+    phases.include?(AddHostingInterestWizard::PhaseStep::SEND)
   end
 end

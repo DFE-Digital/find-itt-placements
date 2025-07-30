@@ -110,7 +110,7 @@ class AddHostingInterestWizard < BaseWizard
       return unless steps.fetch(:secondary_placement_quantity_known).is_quantity_known?
 
       add_step(Interested::SecondaryPlacementQuantityStep)
-      child_subject_steps(step_prefix: ::Placements::AddHostingInterestWizard::Interested)
+      child_subject_steps(step_prefix: Interested)
     else
       super
     end

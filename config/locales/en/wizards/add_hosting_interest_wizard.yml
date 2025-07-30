@@ -20,9 +20,6 @@ en:
           already_organised:
             name: Placements already organised with providers
             description: We'll show any providers who search for you that you're at capacity
-      list_placements_step:
-        title: Would you like to list some placements to be seen by providers?
-        continue: Continue
       reason_not_hosting_step:
         caption: Not offering placements this year
         title: Tell us why you are not able to offer placements for trainee teachers
@@ -38,16 +35,53 @@ en:
           low_capacity_to_support_trainees: Low capacity to support trainees due to staff changes
           other: Other
         tell_us: Tell us your reason
-      help_step:
-        title: Help available to you
+      phase_step:
+        caption: Placement details
+        title: What education phase can your placements be?
+        hint: Select all that apply
+        options:
+          primary_description: 3 to 11 years
+          secondary_description: 11 to 19 years
+          send: Special educational needs and disabilities (SEND) specific
+          send_description: You will be able to select key stages
         continue: Continue
-        did_you_know_html: |
-          Did you know that training providers are able to help specifically with making placements work in SEND environments?
-          <br><br>
-          There are a number of organisations who could help you to make teacher training work.
-        training_providers: Training providers
-        local_providers: These training providers are local to you and could help.
-        find_providers: Find providers near me
+      year_group_selection_step:
+        title: What primary school year groups can you offer placements in?
+        caption: Primary placement details
+        hint: You will be able to enter the number of placements on the next screen
+        continue: Continue
+        year_groups:
+          nursery: Nursery
+          nursery_description: 3 to 4 years
+          reception: Reception
+          reception_description: 4 to 5 years
+          year_1: Year 1
+          year_1_description: 5 to 6 years
+          year_2: Year 2
+          year_2_description: 6 to 7 years
+          year_3: Year 3
+          year_3_description: 7 to 8 years
+          year_4: Year 4
+          year_4_description: 8 to 9 years
+          year_5: Year 5
+          year_5_description: 9 to 10 years
+          year_6: Year 6
+          year_6_description: 10 to 11 years
+          mixed_year_groups: Mixed year groups
+          mixed_year_groups_description: ""
+      secondary_subject_selection_step:
+        title: What secondary school subjects can you offer placements in?
+        caption: Secondary placement details
+        hint: Subjects are taken from the DfE database of courses. If the subject you would like to host is not here, choose the closest option
+        stem_subjects: Science, technology, engineering and mathematics (STEM)
+        lit_lang_subjects: Languages and literature
+        art_humanities_social_subjects: Arts, humanities and social sciences
+        health_physical_education_subjects: Health and physical education
+        continue: Continue
+      secondary_child_subject_selection_step:
+          title: What languages are taught on your %{subject_name} placement offers?
+          caption: Secondary placement details
+          continue: Continue
       school_contact_step:
         caption: Contact details
         title: Who should providers contact?

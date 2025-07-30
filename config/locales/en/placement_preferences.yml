@@ -11,3 +11,44 @@ en:
       if_you_would_like_to_host_placements:
         If you would like to host placements this year, %{link} to let providers know you’re interested.
       update_your_placement_preferences: update your placement preferences
+    primary_placements_list:
+      year_group: Year group
+      number_of_placements: Number of placements
+      unknown: I don’t know
+      not_entered: Not entered
+      change: Change
+    secondary_placements_list:
+      subject: Subject
+      number_of_placements: Number of placements
+      unknown: I don’t know
+      not_entered: Not entered
+      change: Change
+    send_placements_list:
+      key_stage: Key stage
+      number_of_placements: Number of placements
+      unknown: I don’t know
+      not_entered: Not entered
+      change: Change
+    actively_looking_preferences:
+      panel_title: Placement information added
+      panel_text: Providers can see that you have placements available
+      what_happens_next: What happens next?
+      providers_can_contact_you:
+        Providers will be able to contact you on %{mailto} about your placement offers.
+      you_do_not_need_to_take_any_further_action:
+        You do not need to take any further action until providers contact you. After discussions with one or more providers, you can then decide whether to assign providers to your placements.
+      your_placements_offers: Your placements offers
+      primary_placements: Primary placements
+      secondary_placements: Secondary placements
+      send_placements: SEND placements
+      manage_your_placements: Manage your placements
+      you_can_edit_placements: "%{link} to change or remove information."
+      edit_your_placements: Edit your placements
+      editing_them: "For each individual placement, you can:"
+      editing_options:
+        - add an expected date
+        - assign a provider
+        - assign a mentor - only your school will be able to see mentor information
+      assigning_a_provider_is_not_contractual:
+        Assigning a provider to a placement in this service is not a contractual agreement for a trainee to be placed in your school.
+        An agreement must be made between you and the provider outside this service. 

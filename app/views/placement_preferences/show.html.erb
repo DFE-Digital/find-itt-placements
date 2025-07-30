@@ -5,6 +5,8 @@
     <div class="govuk-grid-column-two-thirds">
       <% if @placement_preference.not_open? %>
         <%= render "placement_preferences/not_open_preferences", placement_details: @placement_preference.placement_details %>
+      <% elsif @placement_preference.actively_looking? %>
+        <%= render "placement_preferences/actively_looking_preferences", placement_details: @placement_preference.placement_details %>
       <% end %>
     </div>
   </div>
