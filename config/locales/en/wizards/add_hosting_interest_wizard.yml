@@ -79,9 +79,25 @@ en:
         health_physical_education_subjects: Health and physical education
         continue: Continue
       secondary_child_subject_selection_step:
-          title: What languages are taught on your %{subject_name} placement offers?
-          caption: Secondary placement details
-          continue: Continue
+        title: What languages are taught on your %{subject_name} placement offers?
+        caption: Secondary placement details
+        continue: Continue
+      key_stage_selection_step:
+        title: What key stages can you offer SEND placements in?
+        caption: SEND placement details
+        hint: Select all that apply
+        continue: Continue
+        key_stages:
+          early_years: Early years
+          key_stage_1: Key stage 1
+          key_stage_2: Key stage 2
+          key_stage_3: Key stage 3
+          key_stage_4: Key stage 4
+          key_stage_5: Key stage 5
+          mixed_key_stages: Mixed key stages
+        options:
+          unknown: I don’t know
+          unknown_description: You can discuss key stages with providers later
       school_contact_step:
         caption: Contact details
         title: Who should providers contact?

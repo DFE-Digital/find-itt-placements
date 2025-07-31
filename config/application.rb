@@ -36,6 +36,9 @@ module FindIttPlacements
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
+    # Store user sessions in the database
+    config.session_store :active_record_store
+
     config.assets.paths << Rails.root.join("node_modules/govuk-frontend/dist/govuk/assets")
 
     config.exceptions_app = routes

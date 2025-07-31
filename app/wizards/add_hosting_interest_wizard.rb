@@ -44,12 +44,6 @@ class AddHostingInterestWizard < BaseWizard
     super
   end
 
-  def selected_key_stages
-    return [ UNKNOWN_OPTION ] if selected_key_stage_ids.include?(UNKNOWN_OPTION)
-
-    super
-  end
-
   def academic_year
     @academic_year ||= AcademicYear.current.next
   end

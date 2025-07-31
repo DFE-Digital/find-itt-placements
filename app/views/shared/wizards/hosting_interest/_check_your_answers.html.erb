@@ -25,7 +25,7 @@
     wizard:, current_step: %>
 <% end %>
 
-<% if current_step.selected_key_stages.present? %>
+<% if current_step.key_stages.present? %>
   <h2 class="govuk-heading-m">
     <%= potential ? t(".potential_send_placements") : t(".send_placements") %>
   </h2>

@@ -31,12 +31,10 @@ module PlacementPreferenceCreatable
     ).order_by_name
   end
 
-  def selected_key_stages
-    []
+  def key_stages
+    return [] if steps[:key_stage_selection].blank?
 
-    # @selected_key_stages ||= ::Placements::KeyStage.where(
-    #   id: selected_key_stage_ids,
-    # ).order_by_name
+    @key_stages ||= steps.fetch(:key_stage_selection).key_stages
   end
 
   def placement_quantity_for_subject(subject)
@@ -91,12 +89,6 @@ module PlacementPreferenceCreatable
     steps.fetch(:secondary_subject_selection).subject_ids
   end
 
-  def selected_key_stage_ids
-    return [] if steps[:key_stage_selection].blank?
-
-    steps.fetch(:key_stage_selection).key_stage_ids
-  end
-
   def secondary_subject_steps
     add_step(AddHostingInterestWizard::SecondarySubjectSelectionStep)
     child_subject_steps
@@ -120,7 +112,7 @@ module PlacementPreferenceCreatable
   end
 
   def send_steps
-    add_step(::Placements::MultiPlacementWizard::KeyStageSelectionStep)
+    add_step(AddHostingInterestWizard::KeyStageSelectionStep)
   end
 
   def step_name_for_child_subjects(subject:, selection_number:)
@@ -132,69 +124,6 @@ module PlacementPreferenceCreatable
 
   def phases
     @phases = steps.fetch(:phase).phases
-  end
-
-  def primary_placement_information
-    return {} if steps[:year_group_selection].blank?
-
-    primary_placement_details = {}
-    primary_placement_details["year_group_selection"] = {
-      "year_groups" => steps.fetch(:year_group_selection).year_groups
-    }
-    if steps[:year_group_placement_quantity].present?
-      primary_placement_details["year_group_placement_quantity"] = {}
-      year_groups.each do |year_group|
-        primary_placement_details["year_group_placement_quantity"][year_group] = placement_quantity_for_year_group(year_group)
-      end
-    end
-    primary_placement_details
-  end
-
-  def secondary_placement_information
-    return {} if steps[:secondary_subject_selection].blank?
-
-    secondary_placement_details = {}
-    secondary_placement_details["secondary_subject_selection"] = {
-      "subject_ids" => steps.fetch(:secondary_subject_selection).subject_ids
-    }
-    if steps[:secondary_placement_quantity].present?
-      secondary_placement_details["secondary_placement_quantity"] = {}
-      selected_secondary_subjects.each do |subject|
-        secondary_placement_details["secondary_placement_quantity"][subject.name_as_attribute.to_s] = placement_quantity_for_subject(subject)
-        next unless subject.has_child_subjects?
-
-        secondary_placement_details["secondary_child_subject_placement_selection"] ||= {}
-        secondary_placement_details["secondary_child_subject_placement_selection"][subject.name_as_attribute.to_s] = {}
-        placement_quantity_for_subject(subject).times do |i|
-          selection_number = i + 1
-          step_name = step_name_for_child_subjects(subject:, selection_number:)
-          child_subject_step = steps.fetch(step_name)
-          secondary_placement_details["secondary_child_subject_placement_selection"][subject.name_as_attribute.to_s][selection_number.to_s] = {
-            parent_subject_id: child_subject_step.parent_subject_id,
-            selection_id: child_subject_step.selection_id,
-            selection_number: child_subject_step.selection_number,
-            child_subject_ids: child_subject_step.child_subject_ids
-          }
-        end
-      end
-    end
-    secondary_placement_details
-  end
-
-  def send_placement_information
-    return {} if steps[:key_stage_selection].blank?
-
-    send_placement_details = {}
-    send_placement_details["key_stage_selection"] = {
-      "key_stage_ids" => steps.fetch(:key_stage_selection).key_stage_ids
-    }
-    if steps[:key_stage_placement_quantity].present?
-      send_placement_details["key_stage_placement_quantity"] = {}
-      selected_key_stages.each do |key_stage|
-        send_placement_details["key_stage_placement_quantity"][key_stage.name_as_attribute.to_s] = placement_quantity_for_key_stage(key_stage)
-      end
-    end
-    send_placement_details
   end
 
   def primary_phase?
