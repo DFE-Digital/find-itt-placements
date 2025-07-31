@@ -1,54 +1,118 @@
 <%= content_for :page_title, "Find placements" %>
 <div class="govuk-width-container">
   <div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-third">
+      <%= render partial: "organisations/filter", locals: { filter_form:, search_location: @search_location } %>
+    </div>
+
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-l">Find placements</h1>
+      <h2 class="govuk-heading-m">
+        <%= "#{pagy.count} #{"school".pluralize(pagy.count)} found" %>
+      </h2>
 
-      <ul class="app-search-results">
-        <% schools.each do |school| %>
-          <li class="app-search-results__item">
-            <h2 class="govuk-heading-m">
-              <%= "#{school.name}, #{school.town}" %>
-            </h2>
-
-            <dl class="app-result-detail">
-              <div>
-                <h3 class="govuk-heading-s govuk-!-margin-bottom-2">School details</h3>
-                <div class="app-result-detail__row">
-                  <dt class="app-result-detail__key">
-                    <%= "Phase (age range)" %>
-                  </dt>
-                  <dd class="app-result-detail__value">
-                    <%= "#{school.phase} (#{school.age_range})" %>
-                  </dd>
-                </div>
-                <div class="app-result-detail__row">
-                  <dt class="app-result-detail__key">
-                    Establishment group
-                  </dt>
-                  <dd class="app-result-detail__value">
-                    <%= school.group %>
-                  </dd>
-                </div>
-              </div>
-
-              <div class="govuk-!-margin-top-2">
-                <h3 class="govuk-heading-s govuk-!-margin-bottom-2">Getting there</h3>
-                <div class="app-result-detail__row">
-                  <dt class="app-result-detail__key">
-                    Address
-                  </dt>
-                  <dd class="app-result-detail__value">
-                    <%= school.formatted_address %>
-                  </dd>
-                </div>
-              </div>
-            </dl>
-          </li>
+      <% if schools.present? %>
+        <% if @search_location.present? %>
+          <div class="govuk-grid-row">
+            <div class="govuk-grid-column-three-quarters">
+              <p class="govuk-hint"><%= @search_location.blank? ? "Results sorted alphabetically" : "Results sorted by distance from #{@search_location}" %></p>
+            </div>
+            <div class="govuk-grid-column-one-quarter govuk-!-text-align-right">
+              <% if params[:show_map] %>
+                <%= govuk_link_to("Hide map", organisations_path(filters: filter_form.query_params, page: params[:page])) %>
+              <% else %>
+                <%= govuk_link_to("View map", organisations_path(filters: filter_form.query_params, show_map: true, page: params[:page])) %>
+              <% end %>
+            </div>
+          </div>
+        <% else %>
+          <p class="govuk-hint"><%= @search_location.blank? ? "Results sorted alphabetically" : "Results sorted by distance from #{@search_location}" %></p>
         <% end %>
-      </ul>
 
-      <%= render PaginationComponent.new(pagy:) %>
+        <% if @search_location.present? && params[:show_map] %>
+          <%= render MapComponent.new(
+            organisations: schools,
+            base_latitude: schools.first.latitude,
+            base_longitude: schools.first.longitude,
+          ) %>
+        <% end %>
+
+        <ul class="app-search-results">
+          <% schools.each do |school| %>
+            <li class="app-search-results__item">
+              <h2 class="govuk-heading-m">
+                <%= "#{school.name}, #{school.town}" %>
+              </h2>
+
+              <dl class="app-result-detail">
+                <div>
+                  <h3 class="govuk-heading-s govuk-!-margin-bottom-2">School details</h3>
+                  <div class="app-result-detail__row">
+                    <dt class="app-result-detail__key">
+                      <%= "Unique reference number (URN)" %>
+                    </dt>
+                    <dd class="app-result-detail__value">
+                      <%= school.urn %>
+                    </dd>
+                  </div>
+                  <div class="app-result-detail__row">
+                    <dt class="app-result-detail__key">
+                      <%= "Phase (age range)" %>
+                    </dt>
+                    <dd class="app-result-detail__value">
+                      <%= "#{school.phase} (#{school.age_range})" %>
+                    </dd>
+                  </div>
+                  <div class="app-result-detail__row">
+                    <dt class="app-result-detail__key">
+                      Establishment group
+                    </dt>
+                    <dd class="app-result-detail__value">
+                      <%= school.group %>
+                    </dd>
+                  </div>
+                </div>
+
+                <div class="govuk-!-margin-top-2">
+                  <h3 class="govuk-heading-s govuk-!-margin-bottom-2">Getting there</h3>
+                  <div class="app-result-detail__row">
+                    <dt class="app-result-detail__key">
+                      Address
+                    </dt>
+                    <dd class="app-result-detail__value">
+                      <%= school.formatted_address %>
+                    </dd>
+                  </div>
+                  <% if location_coordinates.present? %>
+                    <div class="app-result-detail__row">
+                      <dt class="app-result-detail__key">
+                        Distance
+                      </dt>
+                      <dd class="app-result-detail__value">
+                        <%= "#{school.distance_to(@location_coordinates).round(1)} miles" %>
+                      </dd>
+                    </div>
+                    <div class="app-result-detail__row">
+                      <dt class="app-result-detail__key">
+                        Travel time
+                      </dt>
+                      <dd class="app-result-detail__value">
+                        <%= "#{school.formatted_duration("transit")} by public transport, #{school.formatted_duration("drive")} by car, #{school.formatted_duration("walk")} walking" %>
+                      </dd>
+                    </div>
+                  <% end %>
+                </div>
+              </dl>
+            </li>
+          <% end %>
+        </ul>
+
+        <%= render PaginationComponent.new(pagy:) %>
+      <% else %>
+        <p class="govuk-body">
+          There are no schools that match your selection. Try searching again, or removing one or more filters.
+        </p>
+      <% end %>
     </div>
   </div>
 </div>

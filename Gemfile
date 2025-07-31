@@ -47,7 +47,10 @@ gem "draper", "~> 4.0"
 
 gem "pagy", "~> 9.3"
 
-gem "httparty"
+gem "httparty", "~> 0.23.1"
+
+gem "stimulus-rails", "~> 1.3"
+
 
 # DfE Sign-in
 gem "omniauth"

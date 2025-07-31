@@ -1,0 +1,15 @@
+<div id="map-component"
+     data-controller="map"
+     data-map-csp-nonce-value="<%= content_security_policy_nonce %>"
+     data-map-base-latitude-value="<%= base_latitude %>"
+     data-map-base-longitude-value="<%= base_longitude %>"
+     data-map-map-id-value="<%= map_id %>">
+  <% organisations.each do |organisation| %>
+    <div data-map-target="organisations"
+         data-marker-latitude="<%= organisation.latitude %>"
+         data-marker-longitude="<%= organisation.longitude %>"
+         data-marker-title="<%= organisation.name %>">
+    </div>
+  <% end %>
+  <div id="map" data-map-target="map"></div>
+</div>
