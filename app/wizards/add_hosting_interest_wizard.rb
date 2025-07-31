@@ -44,6 +44,12 @@ class AddHostingInterestWizard < BaseWizard
     super
   end
 
+  def child_subject_steps(step_prefix: AddHostingInterestWizard)
+    return if selected_secondary_subjects == [ UNKNOWN_OPTION ]
+
+    super(step_prefix:)
+  end
+
   def academic_year
     @academic_year ||= AcademicYear.current.next
   end
@@ -70,7 +76,7 @@ class AddHostingInterestWizard < BaseWizard
       send_steps
     end
 
-    add_step(Interested::NoteToProvidersStep)
+    add_step(NoteToProvidersStep)
     add_step(SchoolContactStep)
     add_step(ConfirmStep)
   end
@@ -84,12 +90,6 @@ class AddHostingInterestWizard < BaseWizard
   def year_group_steps
     if appetite_interested?
       add_step(Interested::YearGroupSelectionStep)
-      return if value_unknown(year_groups)
-
-      add_step(Interested::YearGroupPlacementQuantityKnownStep)
-      return unless steps.fetch(:year_group_placement_quantity_known).is_quantity_known?
-
-      add_step(Interested::YearGroupPlacementQuantityStep)
     else
       super
     end
@@ -98,12 +98,6 @@ class AddHostingInterestWizard < BaseWizard
   def secondary_subject_steps
     if appetite_interested?
       add_step(Interested::SecondarySubjectSelectionStep)
-      return if value_unknown(selected_secondary_subject_ids)
-
-      add_step(Interested::SecondaryPlacementQuantityKnownStep)
-      return unless steps.fetch(:secondary_placement_quantity_known).is_quantity_known?
-
-      add_step(Interested::SecondaryPlacementQuantityStep)
       child_subject_steps(step_prefix: Interested)
     else
       super
@@ -113,12 +107,6 @@ class AddHostingInterestWizard < BaseWizard
   def send_steps
     if appetite_interested?
       add_step(Interested::KeyStageSelectionStep)
-      return if value_unknown(selected_key_stage_ids)
-
-      add_step(Interested::KeyStagePlacementQuantityKnownStep)
-      return unless steps.fetch(:key_stage_placement_quantity_known).is_quantity_known?
-
-      add_step(Interested::KeyStagePlacementQuantityStep)
     else
       super
     end

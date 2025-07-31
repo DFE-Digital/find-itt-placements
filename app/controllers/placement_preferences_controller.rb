@@ -6,6 +6,6 @@ class PlacementPreferencesController < ApplicationController
   end
 
   def show
-    @placement_preference = current_organisation.placement_preferences.find(params[:id])
+    @placement_preference = current_organisation.placement_preferences.find(params[:id]).decorate
   end
 end

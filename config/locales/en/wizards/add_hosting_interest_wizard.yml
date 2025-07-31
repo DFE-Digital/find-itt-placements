@@ -103,9 +103,6 @@ en:
         title: Who should providers contact?
         description: Choose the person best placed to organise placements for trainee teachers at your school
         continue: Continue
-      subjects_known_step:
-        title: Do you know which subjects you would like to host?
-        continue: Continue
       check_your_answers_step:
         caption: Placement details
         title: Check your answers
@@ -136,6 +133,11 @@ en:
         message_to_providers: Message to providers
         confirm: Confirm
         change: Change
+      note_to_providers_step:
+          title: 
+            Is there anything about your school you would like providers to know? (optional)
+          caption: Potential placement details
+          continue: Continue
       interested:
         phase_step:
           title: What education phase could you offer placements in?
@@ -153,29 +155,6 @@ en:
           options:
             unknown: I don’t know
             unknown_description: A school year will not be recorded
-        placement_quantity_known_step:
-          options:
-            "yes": "Yes"
-            "no": "No"
-        year_group_placement_quantity_known_step:
-          title: 
-            Do you know how many placements could you offer for each primary school year group?
-          hint:
-            Sharing information on what you may be able to offer helps providers know whether to contact you. It is not a commitment to take a trainee teacher.
-          caption: Potential primary placement details
-          continue: Continue
-        year_group_placement_quantity_step:
-          title: How many placements could you offer for each year group?
-          hint:
-            Sharing information on what you may be able to offer helps providers know whether to contact you. It is not a commitment to take a trainee teacher.
-          caption: Potential primary placement details
-          enter_approximate: Enter an approximate number if you are unsure
-          continue: Continue
-        note_to_providers_step:
-          title: 
-            Is there anything about your school you would like providers to know? (optional)
-          caption: Potential placement details
-          continue: Continue
         secondary_subject_selection_step:
           title: What subjects could you offer placements in?
           caption: Potential secondary placement details
@@ -190,39 +169,13 @@ en:
           continue: Continue
           options:
             unknown: I don’t know
-        secondary_placement_quantity_known_step:
-          title: Do you know how many secondary school placements you may be willing to offer?
-          hint: Sharing information on what you may be able to offer helps providers know whether to contact you. It is not a commitment to take a trainee teacher.
-          caption: Potential secondary placement details
-          continue: Continue
-        secondary_placement_quantity_step:
-          title: How many placements could you offer for each subject?
-          caption: Potential secondary placement details
-          enter_approximate: Enter an approximate number if you are unsure
-          change_to_specify: You will have a chance to specify the languages later
-          continue: Continue
-        secondary_child_subject_placement_selection_step:
+        secondary_child_subject_selection_step:
           title: What languages are taught on your %{subject_name} placement offers?
           caption: Potential secondary placement details
           continue: Continue
           placement_number: "Placement %{placement_number} of %{step_count}"
           options:
             unknown: Not sure yet
-        key_stage_placement_quantity_step:
-          title: How many placements could you offer for each key stage?
-          caption: Potential SEND placement details
-          enter_approximate: Enter an approximate number if you are unsure
-          hint:
-            Sharing information on what you may be able to offer helps providers know whether to contact you.
-            It is not a commitment to take a trainee teacher.
-          continue: Continue
-        key_stage_placement_quantity_known_step:
-          title: Do you know how many placements you could offer for each key stage?
-          caption: Potential SEND placement details
-          hint:
-            Sharing information on what you may be able to offer helps providers know whether to contact you.
-            It is not a commitment to take a trainee teacher.
-          continue: Continue
         key_stage_selection_step:
           title: What key stages could you offer SEND placements in?
           caption: Potential SEND placement details

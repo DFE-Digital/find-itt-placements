@@ -1,7 +1,8 @@
-class AddHostingInterestWizard::CheckYourAnswersStep < BaseStep
+class AddHostingInterestWizard::ConfirmStep < BaseStep
   delegate :phases, to: :phase_step
   delegate :year_groups, :selected_secondary_subjects, :key_stages, :child_subject_names, to: :wizard
   delegate :first_name, :last_name, :email_address, to: :school_contact_step, prefix: :school_contact
+  delegate :note, to: :note_to_providers_step
 
   private
 
@@ -11,5 +12,9 @@ class AddHostingInterestWizard::CheckYourAnswersStep < BaseStep
 
   def school_contact_step
     wizard.steps.fetch(:school_contact)
+  end
+
+  def note_to_providers_step
+    wizard.steps.fetch(:note_to_providers)
   end
 end

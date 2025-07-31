@@ -37,30 +37,6 @@ module PlacementPreferenceCreatable
     @key_stages ||= steps.fetch(:key_stage_selection).key_stages
   end
 
-  def placement_quantity_for_subject(subject)
-    return 0 if steps[:secondary_placement_quantity].blank?
-
-    steps.fetch(:secondary_placement_quantity).try(subject.name_as_attribute).to_i
-  end
-
-  def placement_quantity_for_year_group(year_group)
-    return 0 if steps[:year_group_placement_quantity].blank?
-
-    steps.fetch(:year_group_placement_quantity).try(year_group.to_sym).to_i
-  end
-
-  def placement_quantity_for_key_stage(key_stage)
-    return 0 if steps[:key_stage_placement_quantity].blank?
-
-    steps.fetch(:key_stage_placement_quantity).try(key_stage.name_as_attribute).to_i
-  end
-
-  def child_subject_placement_step_count
-    steps.values.select { |step|
-      step.is_a?(::Placements::MultiPlacementWizard::SecondaryChildSubjectPlacementSelectionStep)
-    }.count
-  end
-
   def academic_year
     raise NoMethodError, "#academic_year must be implemented"
   end
@@ -69,12 +45,10 @@ module PlacementPreferenceCreatable
     raise NoMethodError, "#current_user must be implemented"
   end
 
-  def placements_information
-    primary_placement_information.merge(
-      secondary_placement_information.merge(
-        send_placement_information,
-      ),
-    )
+  def child_subject_names(subject:)
+    return [] unless subject.has_child_subjects? && steps[step_name_for_child_subjects(subject:)].present?
+
+    PlacementSubject.where(id: steps[step_name_for_child_subjects(subject:)].child_subject_ids).order_by_name.pluck(:name)
   end
 
   private
@@ -115,10 +89,10 @@ module PlacementPreferenceCreatable
     add_step(AddHostingInterestWizard::KeyStageSelectionStep)
   end
 
-  def step_name_for_child_subjects(subject:, selection_number:)
+  def step_name_for_child_subjects(subject:)
     step_name(
-      ::Placements::MultiPlacementWizard::SecondaryChildSubjectPlacementSelectionStep,
-      "#{subject.name_as_attribute}_#{selection_number}",
+      AddHostingInterestWizard::SecondaryChildSubjectSelectionStep,
+      subject.id,
     )
   end
 

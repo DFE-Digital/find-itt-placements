@@ -7,6 +7,8 @@
         <% current_step.selected_secondary_subjects.each do |secondary_subject| %>
           <% if secondary_subject == AddHostingInterestWizard::UNKNOWN_OPTION %>
             <li><%= t(".unknown") %></li>
+          <% elsif secondary_subject.has_child_subjects? %>
+            <li><%= secondary_subject.name %> - <%= current_step.child_subject_names(subject: secondary_subject).to_sentence %></li>
           <% else %>
             <li><%= secondary_subject.name %></li>
           <% end %>

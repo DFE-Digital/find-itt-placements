@@ -2,6 +2,7 @@ class SchoolDecorator < ApplicationDecorator
   include ActionView::Helpers::TextHelper
 
   delegate_all
+
   def formatted_inspection_date
     return "" if last_inspection_date.blank?
 

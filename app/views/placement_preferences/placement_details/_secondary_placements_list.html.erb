@@ -8,7 +8,7 @@
           <% if subject_id == AddHostingInterestWizard::UNKNOWN_OPTION %>
             <li><%= t(".unknown") %></li>
           <% else %>
-            <li><%= PlacementSubject.find(subject_id).name %></li>
+            <li><%= @placement_preference.secondary_subject_name(subject_id:) %></li>
           <% end %>
         <% end %>
       <% end %>
