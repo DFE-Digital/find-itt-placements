@@ -44,12 +44,6 @@ class AddHostingInterestWizard < BaseWizard
     super
   end
 
-  def child_subject_steps(step_prefix: AddHostingInterestWizard)
-    return if selected_secondary_subjects == [ UNKNOWN_OPTION ]
-
-    super(step_prefix:)
-  end
-
   def academic_year
     @academic_year ||= AcademicYear.current.next
   end
@@ -110,6 +104,12 @@ class AddHostingInterestWizard < BaseWizard
     else
       super
     end
+  end
+
+  def child_subject_steps(step_prefix: AddHostingInterestWizard)
+    return if selected_secondary_subjects == [ UNKNOWN_OPTION ]
+
+    super(step_prefix:)
   end
 
   def wizard_school_contact

@@ -1,24 +1,6 @@
 module PlacementPreferenceCreatable
   extend ActiveSupport::Concern
 
-  def add_placement_creation_steps(with_check_your_answers: true)
-    add_step(AddHostingInterestWizard::PhaseStep)
-    if primary_phase?
-      year_group_steps
-    end
-
-    if secondary_phase?
-      secondary_subject_steps
-    end
-
-    if send_specific?
-      send_steps
-    end
-    return unless with_check_your_answers
-
-    add_step(AddHostingInterestWizard::CheckYourAnswersStep)
-  end
-
   def year_groups
     return [] if steps[:year_group_selection].blank?
 
@@ -52,6 +34,24 @@ module PlacementPreferenceCreatable
   end
 
   private
+
+  def add_placement_creation_steps(with_check_your_answers: true)
+    add_step(AddHostingInterestWizard::PhaseStep)
+    if primary_phase?
+      year_group_steps
+    end
+
+    if secondary_phase?
+      secondary_subject_steps
+    end
+
+    if send_specific?
+      send_steps
+    end
+    return unless with_check_your_answers
+
+    add_step(AddHostingInterestWizard::CheckYourAnswersStep)
+  end
 
   def year_group_steps
     add_step(AddHostingInterestWizard::YearGroupSelectionStep)

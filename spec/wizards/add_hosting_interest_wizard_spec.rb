@@ -368,6 +368,20 @@ RSpec.describe AddHostingInterestWizard do
       it "returns a list of selected secondary subjects" do
         expect(selected_secondary_subjects).to contain_exactly(english, mathematics)
       end
+
+      context "when the secondary subject selected is unknown" do
+        let(:state) do
+          {
+            "appetite" => { "appetite" => "actively_looking" },
+            "phase" => { "phases" => %w[secondary] },
+            "secondary_subject_selection" => { "subject_ids" => [ "unknown" ] }
+          }
+        end
+
+        it "returns unknown" do
+          [ "unknown" ]
+        end
+      end
     end
   end
 end
