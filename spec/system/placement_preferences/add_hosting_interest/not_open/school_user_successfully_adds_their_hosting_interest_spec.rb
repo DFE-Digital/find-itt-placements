@@ -84,8 +84,7 @@ RSpec.describe "School user successfully adds their hosting interest", type: :sy
   end
 
   def and_academic_years_exist
-    @current_academic_year = create(:academic_year, :current)
-    @next_academic_year = @current_academic_year.next
+    @next_academic_year = create(:academic_year, :next)
     @next_academic_year_name = @next_academic_year.name
   end
 

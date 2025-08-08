@@ -1,0 +1,45 @@
+en:
+  organisations:
+    filter:
+      filters: Filters
+      selected_filters: Selected filters
+      search_location: Search by location
+      search_by_name: Search by school name
+      search_by_name_prompt: Enter a school name or URN
+      phase: Phase
+      itt_status: ITT status
+      apply_filters: Apply filters
+      schools_to_show: Schools to show
+      schools_to_show_options:
+        active: Only schools using the service
+        all: All schools
+      powered_by_google: Powered by Google
+    show:
+      title: Organisation details
+      organisation_name: Organisation name
+      urn: Unique reference number (URN)
+      ukprn: UK provider reference number (UKPRN)
+      website: Website
+      telephone_number: Telephone number
+      email: Email
+      address: Address
+      unknown: Unknown
+    index:
+      title: Find placements
+      schools_found:
+        one: "%{count} school found"
+        other: "%{count} schools found"
+      view_map: View on map
+      hide_map: Hide map
+      results_alphabetical: Results sorted alphabetically
+      results_distance: Results sorted by distance from %{location}
+      school_details: School details
+      urn: Unique reference number (URN)
+      ukprn: UK provider reference number (UKPRN)
+      phase_age: Phase (age range)
+      establishment_group: Establishment group
+      getting_there: Getting there
+      address: Address
+      distance: Distance
+      travel_time: Travel time
+      no_results: There are no schools that match your selection. Try searching again, or removing one or more filters.

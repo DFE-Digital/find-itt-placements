@@ -33,7 +33,7 @@ class AcademicYear < ApplicationRecord
     for_date(Date.current)
   end
 
-  def next
-    AcademicYear.for_date(starts_on + 1.year)
+  def self.next
+    for_date(Date.current + 1.year)
   end
 end

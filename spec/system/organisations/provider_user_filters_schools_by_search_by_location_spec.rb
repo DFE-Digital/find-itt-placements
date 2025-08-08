@@ -29,9 +29,10 @@ RSpec.describe "Provider user filters schools by search by location", type: :sys
   def given_that_schools_exist
     @provider = build(:provider, name: "Ministry of Magic")
 
-    @primary_school = create(:school, phase: "Primary", name: "Hogwarts", latitude: 51.23622, longitude: -0.570409,)
-    @secondary_school = create(:school, phase: "Secondary", name: "Beauxbatons", latitude: 51.3781018,
-                               longitude: -2.3596827)
+    @primary_school = create(:school, :with_placement_preferences, phase: "Primary", name: "Hogwarts",
+                             latitude: 51.23622, longitude: -0.570409)
+    @secondary_school = create(:school, :with_placement_preferences, phase: "Secondary", name: "Beauxbatons",
+                               latitude: 51.3781018, longitude: -2.3596827)
 
     stub_geocoder_results
     stub_routes_request

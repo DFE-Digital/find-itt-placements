@@ -71,13 +71,7 @@ RSpec.describe AcademicYear, type: :model do
     end
   end
 
-  describe "#next" do
-    let!(:current_academic_year) do
-      create(:academic_year,
-             starts_on: Date.parse("1 September 2020"),
-             ends_on: Date.parse("31 August 2021"),
-             name: "2020 to 2021")
-    end
+  describe ".next" do
     let!(:next_academic_year) do
       create(:academic_year,
              starts_on: Date.parse("1 September 2021"),
@@ -85,9 +79,9 @@ RSpec.describe AcademicYear, type: :model do
              name: "2021 to 2022")
     end
 
-    it "returns the next academic year for the current date" do
+    it "returns the next academic year" do
       Timecop.travel(Date.parse("5 December 2020")) do
-        expect(current_academic_year.next).to eq(next_academic_year)
+        expect(described_class.next).to eq(next_academic_year)
       end
     end
   end

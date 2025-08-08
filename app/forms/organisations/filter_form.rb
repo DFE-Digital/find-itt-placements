@@ -4,6 +4,8 @@ class Organisations::FilterForm < ApplicationForm
   attribute :search_location, default: nil
   attribute :search_by_name, default: nil
   attribute :phases, default: []
+  attribute :itt_statuses, default: []
+  attribute :schools_to_show, default: "active"
 
   def initialize(params = {})
     params.each_value { |v| v.compact_blank! if v.is_a?(Array) }
@@ -13,6 +15,7 @@ class Organisations::FilterForm < ApplicationForm
 
   def filters_selected?
     attributes
+      .except("schools_to_show")
       .values
       .compact
       .flatten
@@ -40,7 +43,9 @@ class Organisations::FilterForm < ApplicationForm
     {
       search_location:,
       search_by_name:,
-      phases:
+      phases:,
+      itt_statuses:,
+        schools_to_show:
     }
   end
 
@@ -62,7 +67,7 @@ class Organisations::FilterForm < ApplicationForm
 
   private
 
-  SINGULAR_ATTRIBUTES = %w[search_location search_by_name].freeze
+  SINGULAR_ATTRIBUTES = %w[search_location search_by_name schools_to_show].freeze
 
   def compacted_attributes
     @compacted_attributes ||= attributes.compact_blank

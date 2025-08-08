@@ -33,8 +33,8 @@ RSpec.describe "Provider user filters schools by name", type: :system do
   def given_that_schools_exist
     @provider = build(:provider, name: "Ministry of Magic")
 
-    @primary_school = create(:school, phase: "Primary", name: "Hogwarts")
-    @secondary_school = create(:school, phase: "Secondary", name: "Beauxbatons")
+    @primary_school = create(:school, :with_placement_preferences, phase: "Primary", name: "Hogwarts")
+    @secondary_school = create(:school, :with_placement_preferences,  phase: "Secondary", name: "Beauxbatons")
   end
 
   def and_i_am_signed_in
@@ -54,7 +54,7 @@ RSpec.describe "Provider user filters schools by name", type: :system do
   end
 
   def and_i_see_the_search_by_school_name_filter
-    expect(page).to have_element(:label, text: "Search by name")
+    expect(page).to have_element(:label, text: "Search by school name")
     expect(page).to have_field("Enter a school name or URN", type: :search)
   end
 

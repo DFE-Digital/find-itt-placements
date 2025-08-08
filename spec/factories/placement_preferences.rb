@@ -14,7 +14,7 @@ FactoryBot.define do
       appetite { "not_open" }
     end
 
-    association :academic_year, :current
+    association :academic_year, :next
     association :organisation, factory: :school
     association :created_by, factory: :user
   end

@@ -38,8 +38,8 @@ RSpec.describe "Provider user filters schools by phase", type: :system do
   def given_that_schools_exist
     @provider = build(:provider, name: "Ministry of Magic")
 
-    @primary_school = create(:school, phase: "Primary", name: "Hogwarts")
-    @secondary_school = create(:school, phase: "Secondary", name: "Beauxbatons")
+    @primary_school = create(:school, :with_placement_preferences, phase: "Primary", name: "Hogwarts")
+    @secondary_school = create(:school, :with_placement_preferences, phase: "Secondary", name: "Beauxbatons")
   end
 
   def and_i_am_signed_in

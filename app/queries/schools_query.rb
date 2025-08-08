@@ -2,9 +2,11 @@ class SchoolsQuery < ApplicationQuery
   MAX_LOCATION_DISTANCE = 50
 
   def call
-    scope = School
+    scope = School.left_outer_joins(:placement_preferences)
+    scope = schools_to_show_condition(scope)
     scope = search_by_name_condition(scope)
     scope = phase_condition(scope)
+    scope = itt_statuses_condition(scope)
     order_condition(scope)
   end
 
@@ -33,6 +35,33 @@ class SchoolsQuery < ApplicationQuery
       MAX_LOCATION_DISTANCE,
       order: :distance,
     ).map(&:id)
+  end
+
+  def schools_to_show_condition(scope)
+    return scope if filter_params[:schools_to_show] == "all"
+
+    scope.where.associated(:placement_preferences)
+  end
+
+  def itt_statuses_condition(scope)
+    hosting_interests = filter_params[:itt_statuses]
+    return scope if hosting_interests.blank?
+
+    conditions = []
+
+    if hosting_interests.include?("open")
+      conditions << scope.where(placement_preferences: { appetite: "interested" })
+    end
+
+    if hosting_interests.include?("not_open")
+      conditions << scope.where(placement_preferences: { appetite: "not_open" })
+    end
+
+    if hosting_interests.include?("actively_looking")
+      conditions << scope.where(placement_preferences: { appetite: "actively_looking" })
+    end
+
+    conditions.reduce(scope.none) { |combined_scope, condition| combined_scope.or(condition) }
   end
 
   def order_condition(scope)

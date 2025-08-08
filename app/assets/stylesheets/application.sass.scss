@@ -39,6 +39,11 @@ $govuk-assets-path: "/";
   justify-content: space-between;
 }
 
+.govuk-tag {
+  max-width: unset;
+  white-space: nowrap;
+}
+
 
 .app-search-results {
   padding-top: 15px;

@@ -38,6 +38,8 @@ class OrganisationsController < ApplicationController
     params.fetch(:filters, {}).permit(
       :search_location,
       :search_by_name,
+      :schools_to_show,
+      itt_statuses: [],
       phases: [],
       )
   end

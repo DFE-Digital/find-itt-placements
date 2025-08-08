@@ -50,6 +50,14 @@ describe Organisations::FilterForm, type: :model do
       end
     end
 
+    context "when given itt statuses params" do
+      let(:params) { { itt_statuses: %w[open not_open] } }
+
+      it "returns true" do
+        expect(filters_selected).to be(true)
+      end
+    end
+
     context "when given no params" do
       let(:params) { {} }
 
@@ -81,7 +89,7 @@ describe Organisations::FilterForm, type: :model do
             filter: "search_location",
             value: "London",
           ),
-        ).to eq(organisations_path(filters: {}))
+        ).to eq(organisations_path(filters: { schools_to_show: "active" }))
       end
     end
 
@@ -96,7 +104,7 @@ describe Organisations::FilterForm, type: :model do
             filter: "search_by_name",
             value: "Hogwarts",
           ),
-        ).to eq(organisations_path(filters: {}))
+        ).to eq(organisations_path(filters: { schools_to_show: "active" }))
       end
     end
 
@@ -111,7 +119,22 @@ describe Organisations::FilterForm, type: :model do
             filter: "phases",
             value: "primary",
           ),
-        ).to eq(organisations_path(filters: { phases: [ "secondary" ] }))
+        ).to eq(organisations_path(filters: { phases: [ "secondary" ], schools_to_show: "active"  }))
+      end
+    end
+
+    context "when removing itt statuses params" do
+      let(:params) do
+        { itt_statuses: %w[open not_open] }
+      end
+
+      it "returns the find index page path without the given itt statuses param" do
+        expect(
+          filter_form.index_path_without_filter(
+            filter: "itt_statuses",
+            value: "open",
+          ),
+        ).to eq(organisations_path(filters: { itt_statuses: [ "not_open" ], schools_to_show: "active" }))
       end
     end
   end
@@ -122,6 +145,8 @@ describe Organisations::FilterForm, type: :model do
         {
           search_location: nil,
           search_by_name: nil,
+          schools_to_show: "active",
+          itt_statuses: [],
           phases: []
         },
       )

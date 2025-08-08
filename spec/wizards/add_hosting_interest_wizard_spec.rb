@@ -331,7 +331,7 @@ RSpec.describe AddHostingInterestWizard do
   describe "#academic_year" do
     subject(:academic_year) { wizard.academic_year }
 
-    let(:next_academic_year) { AcademicYear.current.next }
+    let(:next_academic_year) { AcademicYear.next }
 
     before { next_academic_year }
 
