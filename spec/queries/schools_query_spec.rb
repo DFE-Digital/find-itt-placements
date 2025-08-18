@@ -95,6 +95,14 @@ describe SchoolsQuery do
         expect(query.call).to eq([ query_school, close_query_school, far_query_school ])
         expect(query.call).not_to include(non_query_school)
       end
+
+      context "when specifying a max distance" do
+        let(:params) { { location_coordinates:, search_distance: 1, filters: { schools_to_show: "all" } } }
+
+        it "returns the filtered schools in order of distance" do
+          expect(query.call).to contain_exactly(query_school, close_query_school)
+        end
+      end
     end
 
     context "when filtering schools by placement preferences" do

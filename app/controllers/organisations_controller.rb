@@ -26,6 +26,8 @@ class OrganisationsController < ApplicationController
     @schools = @schools.decorate
     calculate_travel_time
 
+    raise t("max_search_distance_error") if submitted_search_distance_over_max_value
+
     render locals: { pagy: @pagy, schools: @schools, filter_form: }
   end
 
@@ -48,6 +50,7 @@ class OrganisationsController < ApplicationController
   def filter_params
     params.fetch(:filters, {}).permit(
       :search_location,
+      :search_distance,
       :search_by_name,
       :schools_to_show,
       itt_statuses: [],
@@ -74,5 +77,13 @@ class OrganisationsController < ApplicationController
 
   def store_filter_params
     session["find_filter_params"] = { filters: filter_params, page: params[:page] }
+  end
+
+  def submitted_search_distance_over_max_value
+    if params[:search_distance].present?
+      params[:search_distance]&.to_i > SchoolsQuery::MAX_LOCATION_DISTANCE
+    else
+      false
+    end
   end
 end
