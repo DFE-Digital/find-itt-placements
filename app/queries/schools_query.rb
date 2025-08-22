@@ -40,7 +40,7 @@ class SchoolsQuery < ApplicationQuery
   def organisation_ids_near_location(location_coordinates)
     Organisation.near(
       location_coordinates,
-      MAX_LOCATION_DISTANCE,
+      max_radius,
       order: :distance,
     ).map(&:id)
   end
@@ -70,6 +70,14 @@ class SchoolsQuery < ApplicationQuery
            .order(Arel.sql("ordering_index"))
     else
       scope.distinct.order(:name)
+    end
+  end
+
+  def max_radius
+    if params[:search_distance].present?
+      [ params[:search_distance].to_i, MAX_LOCATION_DISTANCE ].compact.min
+    else
+      MAX_LOCATION_DISTANCE
     end
   end
 end

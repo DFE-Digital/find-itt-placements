@@ -135,6 +135,11 @@
                 <%= form.govuk_text_field :search_location, type: :search, value: @search_location, label: { hidden: true }, caption: { text: "Enter a town, city or postcode" } %>
                 <p class="govuk-body-s secondary-text"><%= t(".powered_by_google") %></p>
               </div>
+              <% if @search_location.present? %>
+                <div class="govuk-form-group">
+                  <%= form.govuk_text_field :search_distance, type: :number, label: { hidden: true }, caption: { text: "Enter a max distance from your search location" }, suffix_text: 'miles' %>
+                </div>
+              <% end %>
             </div>
           </div>
 
