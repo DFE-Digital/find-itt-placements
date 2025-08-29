@@ -2,6 +2,7 @@ class Organisations::FilterForm < ApplicationForm
   include ActiveModel::Attributes
 
   attribute :search_location, default: nil
+  attribute :search_distance, default: nil
   attribute :search_by_name, default: nil
   attribute :phases, default: []
   attribute :subject_ids, default: []
@@ -43,6 +44,7 @@ class Organisations::FilterForm < ApplicationForm
   def query_params
     {
       search_location:,
+      search_distance:,
       search_by_name:,
       subject_ids:,
       phases:,

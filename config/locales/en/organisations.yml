@@ -84,3 +84,4 @@ en:
       distance: Distance
       travel_time: Travel time
       no_results: There are no schools that match your selection. Try searching again, or removing one or more filters.
+      max_search_distance_error: Search distance must be 50 miles or less, results capped to 50 miles.

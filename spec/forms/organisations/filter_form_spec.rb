@@ -24,6 +24,24 @@ describe Organisations::FilterForm, type: :model do
       end
     end
 
+    context "when given search distance params" do
+      context "when search location an empty string" do
+        let(:params) { { search_distance: "" } }
+
+        it "return false" do
+          expect(filters_selected).to be(false)
+        end
+      end
+
+      context "when search location not an empty string" do
+        let(:params) { { search_distance: "20" } }
+
+        it "return true" do
+          expect(filters_selected).to be(true)
+        end
+      end
+    end
+
     context "when given search by name params" do
       context "when search by name an empty string" do
         let(:params) { { search_by_name: "" } }
@@ -145,6 +163,7 @@ describe Organisations::FilterForm, type: :model do
         {
           search_location: nil,
           search_by_name: nil,
+          search_distance: nil,
           schools_to_show: "active",
           subject_ids: [],
           itt_statuses: [],
