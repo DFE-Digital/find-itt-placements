@@ -80,6 +80,14 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  gem "erb_lint", require: false
+  gem "factory_bot_rails"
+  gem "rspec"
+  gem "rspec-rails"
+  gem "strong_migrations"
+  gem "dotenv-rails", "~> 3.1"
+  gem "capybara-screenshot", "~> 1.0"
 end
 
 group :development do
@@ -98,23 +106,13 @@ group :test do
   gem "shoulda-matchers"
   gem "webmock", "~> 3.25"
   gem "timecop", "~> 0.9.10"
-  gem "undercover"
+  gem "undercover", "~> 0.7.4"
   gem "simplecov", require: false
   gem "simplecov-lcov", require: false
 end
 
 gem "govuk-components"
 gem "govuk_design_system_formbuilder"
-
-group :test, :development do
-  gem "erb_lint", require: false
-  gem "factory_bot_rails"
-  gem "rspec"
-  gem "rspec-rails"
-  gem "strong_migrations"
-  gem "dotenv-rails", "~> 3.1"
-  gem "capybara-screenshot", "~> 1.0"
-end
 
 group :development, :production do
   gem "amazing_print"

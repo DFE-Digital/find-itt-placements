@@ -589,7 +589,7 @@ GEM
       railties (>= 7.1.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    undercover (0.8.0)
+    undercover (0.7.4)
       base64
       bigdecimal
       imagen (>= 0.2.0)
@@ -700,7 +700,7 @@ DEPENDENCIES
   thruster
   timecop (~> 0.9.10)
   tzinfo-data
-  undercover
+  undercover (~> 0.7.4)
   web-console
   webmock (~> 3.25)
 
